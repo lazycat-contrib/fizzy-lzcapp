@@ -14,7 +14,7 @@ params:
   - id: mailer_from_address
     type: string
     name: Mail From Address
-    description: Sender email address used by Fizzy. Required when SMTP is enabled.
+    description: Sender email address used by Fizzy.example Fizzy <fizzy@example.com>, Required when SMTP is enabled.
     optional: true
 
   - id: smtp_address
@@ -161,7 +161,7 @@ locales:
       description: 通过 SMTP 发送登录验证码、魔法链接和通知邮件；关闭时可从应用日志查看登录验证码。
     mailer_from_address:
       name: 发件人地址
-      description: Fizzy 发送邮件时使用的邮箱地址；启用 SMTP 时必填。
+      description: Fizzy 发送邮件时使用的邮箱地址,示例 Fizzy <fizzy@example.com>，启用 SMTP 时必填。
     smtp_address:
       name: SMTP 服务器
       description: SMTP 服务器主机名；启用 SMTP 时必填。
