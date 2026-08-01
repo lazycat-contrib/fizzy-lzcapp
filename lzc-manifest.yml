@@ -10,7 +10,7 @@ services:
   fizzy:
     # upstream: ghcr.io/basecamp/fizzy:sha-fababf6@sha256:bfb3fd38c523f3e198768ac41a56d06dd67ab6dddbaefb1d87c984c4034d1067
     image: ghcr.1ms.run/basecamp/fizzy:sha-fababf6@sha256:bfb3fd38c523f3e198768ac41a56d06dd67ab6dddbaefb1d87c984c4034d1067
-    run_as: "1000:1000"
+    user: root
     environment:
       - SECRET_KEY_BASE={{stable_secret "fizzy.secret_key_base"}}
       - DISABLE_SSL=true
