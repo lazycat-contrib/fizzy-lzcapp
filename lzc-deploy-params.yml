@@ -4,14 +4,12 @@ params:
     name: Multi-tenant Mode
     description: Allow more than one Fizzy account to be created on this installation.
     default_value: "false"
-    optional: true
 
   - id: enable_smtp
     type: bool
     name: Enable SMTP
     description: Send sign-in codes, magic links, and notification emails through an SMTP server. When disabled, sign-in codes are written to the application logs.
     default_value: "false"
-    optional: true
 
   - id: mailer_from_address
     type: string
@@ -74,20 +72,19 @@ params:
     type: string
     name: VAPID Public Key
     description: Optional VAPID public key used for Web Push notifications.
-    optional: true
+    default_value: "BPpI5uuvCWArmATkvt4ylQMPJpBnrFRspnUC3oM0oEdAKHuFpqs_vyRNJfjNGHr68rbXBjXZ_gzl9WgXcapeiDw="
 
   - id: vapid_private_key
     type: secret
     name: VAPID Private Key
     description: Optional VAPID private key paired with the public key for Web Push notifications.
-    optional: true
-
+    default_value: "2T2wM8Q-kmnJsdi67um7nFBhGGsGMWRD1KmLvOqd9lw="
+    
   - id: enable_s3
     type: bool
     name: Enable S3 Storage
     description: Store uploaded files in an S3-compatible bucket instead of the local persistent volume.
     default_value: "false"
-    optional: true
 
   - id: s3_bucket
     type: string
