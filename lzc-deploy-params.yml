@@ -1,0 +1,230 @@
+params:
+  - id: multi_tenant
+    type: bool
+    name: Multi-tenant Mode
+    description: Allow more than one Fizzy account to be created on this installation.
+    default_value: "false"
+    optional: true
+
+  - id: enable_smtp
+    type: bool
+    name: Enable SMTP
+    description: Send sign-in codes, magic links, and notification emails through an SMTP server. When disabled, sign-in codes are written to the application logs.
+    default_value: "false"
+    optional: true
+
+  - id: mailer_from_address
+    type: string
+    name: Mail From Address
+    description: Sender email address used by Fizzy. Required when SMTP is enabled.
+    optional: true
+
+  - id: smtp_address
+    type: string
+    name: SMTP Server
+    description: SMTP server hostname. Required when SMTP is enabled.
+    optional: true
+
+  - id: smtp_port
+    type: string
+    name: SMTP Port
+    description: SMTP server port. Use 587 for STARTTLS or 465 for implicit TLS.
+    default_value: "587"
+    optional: true
+
+  - id: smtp_username
+    type: string
+    name: SMTP Username
+    description: Optional username used to authenticate with the SMTP server.
+    optional: true
+
+  - id: smtp_password
+    type: secret
+    name: SMTP Password
+    description: Optional password used to authenticate with the SMTP server.
+    optional: true
+
+  - id: smtp_tls
+    type: bool
+    name: SMTP Implicit TLS
+    description: Enable only for SMTPS servers that require implicit TLS, usually on port 465. STARTTLS is automatic and does not require this option.
+    default_value: "false"
+    optional: true
+
+  - id: smtp_domain
+    type: string
+    name: SMTP HELO Domain
+    description: Optional domain advertised to the SMTP server during connection setup.
+    optional: true
+
+  - id: smtp_authentication
+    type: string
+    name: SMTP Authentication
+    description: SMTP authentication method, normally plain.
+    default_value: plain
+    optional: true
+
+  - id: smtp_ssl_verify_mode
+    type: string
+    name: SMTP Certificate Verification
+    description: Leave empty for normal certificate verification. Enter none only for a trusted SMTP server with a self-signed certificate.
+    optional: true
+
+  - id: vapid_public_key
+    type: string
+    name: VAPID Public Key
+    description: Optional VAPID public key used for Web Push notifications.
+    optional: true
+
+  - id: vapid_private_key
+    type: secret
+    name: VAPID Private Key
+    description: Optional VAPID private key paired with the public key for Web Push notifications.
+    optional: true
+
+  - id: enable_s3
+    type: bool
+    name: Enable S3 Storage
+    description: Store uploaded files in an S3-compatible bucket instead of the local persistent volume.
+    default_value: "false"
+    optional: true
+
+  - id: s3_bucket
+    type: string
+    name: S3 Bucket
+    description: S3 bucket name. Required when S3 storage is enabled.
+    optional: true
+
+  - id: s3_region
+    type: string
+    name: S3 Region
+    description: S3 region used for request signing.
+    default_value: us-east-1
+    optional: true
+
+  - id: s3_access_key_id
+    type: secret
+    name: S3 Access Key ID
+    description: S3 access key ID. Required when S3 storage is enabled.
+    optional: true
+
+  - id: s3_secret_access_key
+    type: secret
+    name: S3 Secret Access Key
+    description: S3 secret access key. Required when S3 storage is enabled.
+    optional: true
+
+  - id: s3_endpoint
+    type: string
+    name: S3 Endpoint
+    description: Optional endpoint URL for a non-AWS S3-compatible provider.
+    optional: true
+
+  - id: s3_force_path_style
+    type: bool
+    name: S3 Path-style Requests
+    description: Use path-style S3 URLs when required by the storage provider.
+    default_value: "false"
+    optional: true
+
+  - id: s3_request_checksum_calculation
+    type: string
+    name: S3 Request Checksum Mode
+    description: AWS SDK request checksum mode. Use when_supported normally or when_required for providers with limited checksum support.
+    default_value: when_supported
+    optional: true
+
+  - id: s3_response_checksum_validation
+    type: string
+    name: S3 Response Checksum Mode
+    description: AWS SDK response checksum mode. Use when_supported normally or when_required for providers with limited checksum support.
+    default_value: when_supported
+    optional: true
+
+  - id: csp_connect_src
+    type: string
+    name: Additional CSP Connect Source
+    description: Optional additional connect-src value required by an external S3-compatible provider.
+    optional: true
+
+  - id: service_worker_cors_enabled
+    type: bool
+    name: Service Worker CORS Mode
+    description: Disable if inline images fail because the external storage provider omits CORS headers on presigned URL responses.
+    default_value: "true"
+    optional: true
+
+locales:
+  zh:
+    multi_tenant:
+      name: 多租户模式
+      description: 允许在同一个 Fizzy 实例中创建多个账户。
+    enable_smtp:
+      name: 启用 SMTP
+      description: 通过 SMTP 发送登录验证码、魔法链接和通知邮件；关闭时可从应用日志查看登录验证码。
+    mailer_from_address:
+      name: 发件人地址
+      description: Fizzy 发送邮件时使用的邮箱地址；启用 SMTP 时必填。
+    smtp_address:
+      name: SMTP 服务器
+      description: SMTP 服务器主机名；启用 SMTP 时必填。
+    smtp_port:
+      name: SMTP 端口
+      description: SMTP 服务器端口；STARTTLS 通常使用 587，隐式 TLS 通常使用 465。
+    smtp_username:
+      name: SMTP 用户名
+      description: SMTP 服务器的可选登录用户名。
+    smtp_password:
+      name: SMTP 密码
+      description: SMTP 服务器的可选登录密码。
+    smtp_tls:
+      name: SMTP 隐式 TLS
+      description: 仅在服务器要求隐式 TLS 时启用，通常对应 465 端口；STARTTLS 无需启用。
+    smtp_domain:
+      name: SMTP HELO 域名
+      description: 连接 SMTP 服务器时声明的可选域名。
+    smtp_authentication:
+      name: SMTP 认证方式
+      description: SMTP 认证方式，通常使用 plain。
+    smtp_ssl_verify_mode:
+      name: SMTP 证书验证
+      description: 正常情况留空；仅对可信的自签名 SMTP 服务器填写 none。
+    vapid_public_key:
+      name: VAPID 公钥
+      description: 用于 Web Push 通知的可选 VAPID 公钥。
+    vapid_private_key:
+      name: VAPID 私钥
+      description: 与公钥配对、用于 Web Push 通知的可选 VAPID 私钥。
+    enable_s3:
+      name: 启用 S3 存储
+      description: 将上传文件保存到 S3 兼容存储，而不是本地持久化目录。
+    s3_bucket:
+      name: S3 存储桶
+      description: S3 存储桶名称；启用 S3 时必填。
+    s3_region:
+      name: S3 区域
+      description: 请求签名使用的 S3 区域。
+    s3_access_key_id:
+      name: S3 Access Key ID
+      description: S3 Access Key ID；启用 S3 时必填。
+    s3_secret_access_key:
+      name: S3 Secret Access Key
+      description: S3 Secret Access Key；启用 S3 时必填。
+    s3_endpoint:
+      name: S3 服务端点
+      description: 非 AWS 的 S3 兼容服务所需的可选端点 URL。
+    s3_force_path_style:
+      name: S3 路径风格请求
+      description: 存储服务要求时启用路径风格 S3 URL。
+    s3_request_checksum_calculation:
+      name: S3 请求校验模式
+      description: AWS SDK 请求校验模式；通常使用 when_supported，兼容性有限的服务可用 when_required。
+    s3_response_checksum_validation:
+      name: S3 响应校验模式
+      description: AWS SDK 响应校验模式；通常使用 when_supported，兼容性有限的服务可用 when_required。
+    csp_connect_src:
+      name: 额外 CSP 连接来源
+      description: 外部 S3 兼容服务需要时填写额外的 connect-src 值。
+    service_worker_cors_enabled:
+      name: Service Worker CORS 模式
+      description: 如果外部存储的预签名 URL 未返回 CORS 头并导致图片无法显示，请关闭此选项。

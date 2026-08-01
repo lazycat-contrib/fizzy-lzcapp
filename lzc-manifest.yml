@@ -1,0 +1,66 @@
+application:
+  subdomain: fizzy
+  public_path:
+    - /
+  upstreams:
+    - location: /
+      backend: http://fizzy:80
+
+services:
+  fizzy:
+    # upstream: ghcr.io/basecamp/fizzy:sha-fababf6@sha256:bfb3fd38c523f3e198768ac41a56d06dd67ab6dddbaefb1d87c984c4034d1067
+    image: ghcr.1ms.run/basecamp/fizzy:sha-fababf6@sha256:bfb3fd38c523f3e198768ac41a56d06dd67ab6dddbaefb1d87c984c4034d1067
+    run_as: "1000:1000"
+    environment:
+      - SECRET_KEY_BASE={{stable_secret "fizzy.secret_key_base"}}
+      - DISABLE_SSL=true
+      - BASE_URL=https://{{.S.AppDomain}}
+      - MULTI_TENANT={{.U.multi_tenant}}
+{{if .U.enable_smtp}}
+      - MAILER_FROM_ADDRESS={{.U.mailer_from_address}}
+      - SMTP_ADDRESS={{.U.smtp_address}}
+      - SMTP_PORT={{.U.smtp_port}}
+      - SMTP_TLS={{.U.smtp_tls}}
+      - SMTP_AUTHENTICATION={{.U.smtp_authentication}}
+{{if .U.smtp_username}}
+      - SMTP_USERNAME={{.U.smtp_username}}
+{{end}}
+{{if .U.smtp_password}}
+      - SMTP_PASSWORD={{.U.smtp_password}}
+{{end}}
+{{if .U.smtp_domain}}
+      - SMTP_DOMAIN={{.U.smtp_domain}}
+{{end}}
+{{if .U.smtp_ssl_verify_mode}}
+      - SMTP_SSL_VERIFY_MODE={{.U.smtp_ssl_verify_mode}}
+{{end}}
+{{end}}
+{{if .U.vapid_public_key}}
+      - VAPID_PUBLIC_KEY={{.U.vapid_public_key}}
+{{end}}
+{{if .U.vapid_private_key}}
+      - VAPID_PRIVATE_KEY={{.U.vapid_private_key}}
+{{end}}
+{{if .U.enable_s3}}
+      - ACTIVE_STORAGE_SERVICE=s3
+      - S3_BUCKET={{.U.s3_bucket}}
+      - S3_REGION={{.U.s3_region}}
+      - S3_ACCESS_KEY_ID={{.U.s3_access_key_id}}
+      - S3_SECRET_ACCESS_KEY={{.U.s3_secret_access_key}}
+      - S3_FORCE_PATH_STYLE={{.U.s3_force_path_style}}
+      - S3_REQUEST_CHECKSUM_CALCULATION={{.U.s3_request_checksum_calculation}}
+      - S3_RESPONSE_CHECKSUM_VALIDATION={{.U.s3_response_checksum_validation}}
+      - SERVICE_WORKER_CORS_ENABLED={{.U.service_worker_cors_enabled}}
+{{if .U.s3_endpoint}}
+      - S3_ENDPOINT={{.U.s3_endpoint}}
+{{end}}
+{{if .U.csp_connect_src}}
+      - CSP_CONNECT_SRC={{.U.csp_connect_src}}
+{{end}}
+{{end}}
+    binds:
+      - /lzcapp/var/storage:/rails/storage
+
+usage: |
+  首次打开后按页面提示创建 Fizzy 账户。Fizzy 使用邮件验证码/魔法链接登录；如果未启用 SMTP，可在应用日志中查看 6 位验证码。
+  BASE_URL、反向代理 SSL 和 SECRET_KEY_BASE 已由 LazyCat 自动配置。

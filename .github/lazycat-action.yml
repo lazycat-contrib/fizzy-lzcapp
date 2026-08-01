@@ -1,0 +1,45 @@
+version: 1
+
+project:
+  root: .
+  build_config: lzc-build.yml
+  package_file: package.yml
+  output: build/fizzy.lpk
+  target_arch: amd64
+
+update:
+  strategy: publish
+  allow_downgrade: false
+  version_source:
+    type: image
+    image: fizzy
+    bump: patch
+
+build:
+  toolchains: []
+  run_buildscript: false
+
+images:
+  - id: fizzy
+    target: service
+    service: fizzy
+    source: ghcr.io/basecamp/fizzy
+    channel: custom
+    sort: created
+    tag_regex: '^sha-fababf6$'
+    delivery:
+      mode: mirror
+      image_template: ghcr.1ms.run/basecamp/fizzy:{tag}
+      require_digest_match: true
+
+stores:
+  official:
+    enabled: false
+    skip_if_version_exists: false
+    retry:
+      enabled: false
+  private:
+    enabled: true
+    skip_if_version_exists: true
+    name: Fizzy
+    summary: Fizzy LazyCat package published from GitHub Actions.

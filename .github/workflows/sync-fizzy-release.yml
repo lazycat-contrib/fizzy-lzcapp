@@ -1,0 +1,75 @@
+name: Sync Latest Fizzy Release
+
+on:
+  schedule:
+    - cron: "17 1 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-fizzy-release
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Resolve latest upstream release
+        id: release
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const fs = require("fs");
+
+            const { data: release } = await github.rest.repos.getLatestRelease({
+              owner: "basecamp",
+              repo: "fizzy",
+            });
+
+            const match = /^fizzy@([0-9a-f]{7})$/.exec(release.tag_name);
+            if (!match) {
+              core.setFailed(`Unexpected Fizzy release tag: ${release.tag_name}`);
+              return;
+            }
+
+            const imageTag = `sha-${match[1]}`;
+            const configPath = ".github/lazycat-action.yml";
+            const config = fs.readFileSync(configPath, "utf8");
+            const tagLine = /^(\s*tag_regex:\s*)'\^sha-[0-9a-f]{7}\$'(\s*)$/gm;
+            const matches = [...config.matchAll(tagLine)];
+
+            if (matches.length !== 1) {
+              core.setFailed(`Expected exactly one SHA tag_regex line, found ${matches.length}`);
+              return;
+            }
+
+            const updated = config.replace(
+              tagLine,
+              (_line, prefix, suffix) => `${prefix}'^${imageTag}$'${suffix}`,
+            );
+            const changed = updated !== config;
+
+            if (changed) {
+              fs.writeFileSync(configPath, updated, "utf8");
+            }
+
+            core.setOutput("changed", String(changed));
+            core.setOutput("release_tag", release.tag_name);
+            core.setOutput("image_tag", imageTag);
+
+      - name: Commit release selection
+        if: steps.release.outputs.changed == 'true'
+        env:
+          IMAGE_TAG: ${{ steps.release.outputs.image_tag }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/lazycat-action.yml
+          git diff --cached --check
+          git commit -m "chore: track Fizzy release ${IMAGE_TAG}"
+          git push
