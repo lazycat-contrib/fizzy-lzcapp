@@ -1,16 +1,14 @@
 package: community.lazycat.cpp.fizzy
-version: 0.1.1
+version: 0.1.2
 name: Fizzy
 description: A fast, focused kanban tool for tracking bugs, ideas, issues, and projects.
 min_os_version: 1.6.0
 homepage: https://github.com/basecamp/fizzy
 author: basecamp
 license: O'Saasy
-
 permissions:
   required:
     - net.internet
-
 locales:
   zh:
     name: Fizzy

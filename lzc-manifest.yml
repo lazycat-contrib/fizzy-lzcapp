@@ -5,11 +5,10 @@ application:
   upstreams:
     - location: /
       backend: http://fizzy:80
-
 services:
   fizzy:
-    # upstream: ghcr.io/basecamp/fizzy:sha-fababf6@sha256:bfb3fd38c523f3e198768ac41a56d06dd67ab6dddbaefb1d87c984c4034d1067
-    image: ghcr.1ms.run/basecamp/fizzy:sha-fababf6@sha256:bfb3fd38c523f3e198768ac41a56d06dd67ab6dddbaefb1d87c984c4034d1067
+    # upstream: ghcr.io/basecamp/fizzy:sha-06d5cd2@sha256:cd422086fcafa7e7dbc4db8563436a6d7c4c1888444d6f34b7860b9bc1ded797
+    image: ghcr.1ms.run/basecamp/fizzy:sha-06d5cd2@sha256:cd422086fcafa7e7dbc4db8563436a6d7c4c1888444d6f34b7860b9bc1ded797
     user: root
     environment:
       - SECRET_KEY_BASE={{stable_secret "fizzy.secret_key_base"}}
@@ -60,7 +59,6 @@ services:
 {{end}}
     binds:
       - /lzcapp/var/storage:/rails/storage
-
 usage: |
   首次打开后按页面提示创建 Fizzy 账户。Fizzy 使用邮件验证码/魔法链接登录；如果未启用 SMTP，可在应用日志中查看 6 位验证码。
   BASE_URL、反向代理 SSL 和 SECRET_KEY_BASE 已由 LazyCat 自动配置。
