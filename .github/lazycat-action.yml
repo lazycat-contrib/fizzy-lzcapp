@@ -26,7 +26,7 @@ images:
     source: ghcr.io/basecamp/fizzy
     channel: custom
     sort: created
-    tag_regex: '^sha-7c49304$'
+    tag_regex: '^sha-d9d051a$'
     delivery:
       mode: mirror
       image_template: ghcr.1ms.run/basecamp/fizzy:{tag}
