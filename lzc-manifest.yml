@@ -7,8 +7,8 @@ application:
       backend: http://fizzy:80
 services:
   fizzy:
-    # upstream: ghcr.io/basecamp/fizzy:sha-ad2106e@sha256:26b685ad682102e104895c743b7aa20a5a32a61e7f23b77ecf9b6503f7f0b533
-    image: ghcr.1ms.run/basecamp/fizzy:sha-ad2106e@sha256:26b685ad682102e104895c743b7aa20a5a32a61e7f23b77ecf9b6503f7f0b533
+    # upstream: ghcr.io/basecamp/fizzy:sha-259c624@sha256:d70a6b56ea0dc280525b5bfb583d68d1b882d3e2d252e60aafe47a4b04ba7bff
+    image: ghcr.1ms.run/basecamp/fizzy:sha-259c624@sha256:d70a6b56ea0dc280525b5bfb583d68d1b882d3e2d252e60aafe47a4b04ba7bff
     user: root
     environment:
       - SECRET_KEY_BASE={{stable_secret "fizzy.secret_key_base"}}
